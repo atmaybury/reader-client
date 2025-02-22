@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useAuthorization } from "./contexts/useAuthorization"
 
 const LoginScreen = () => {
