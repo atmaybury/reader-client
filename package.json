@@ -1,15 +1,18 @@
 {
-  "name": "reader-frontend-2",
+  "name": "reader-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "LOCAL=true && vite",
+    "dev": "VITE_LOCAL=true && vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@blueprintjs/core": "^5.16.6",
+    "@blueprintjs/icons": "^5.18.1",
+    "prettier": "^3.5.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
