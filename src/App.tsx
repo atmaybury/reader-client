@@ -1,10 +1,10 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { AuthorizationProvider } from './contexts/authorizationContext/AuthorizationContext';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
 import { Button } from '@blueprintjs/core';
 import { useAuthorization } from './contexts/authorizationContext/useAuthorization';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import LoginForm from './forms/loginForm/LoginForm';
+import RegisterForm from './forms/registerForm/RegisterForm';
 
 const queryClient = new QueryClient();
 

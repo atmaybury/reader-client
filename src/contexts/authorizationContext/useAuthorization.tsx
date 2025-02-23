@@ -4,10 +4,9 @@ import {
   useAuthorizationStateContext,
 } from './AuthorizationContext';
 import config from '../../config';
-import { LoginUserInput } from '../../LoginForm';
 import { decodeToken } from '../../core/helpers';
 
-type RegisterUserInput = {
+type UserInput = {
   username: string;
   email: string;
   password: string;
@@ -24,7 +23,7 @@ export const useAuthorization = () => {
 
   const registerMutation = useMutation({
     mutationKey: ['register'],
-    mutationFn: async (user: RegisterUserInput) =>
+    mutationFn: async (user: UserInput) =>
       fetch(`${config.API_PATH}/register`, {
         method: 'POST',
         body: JSON.stringify(user),
@@ -36,7 +35,7 @@ export const useAuthorization = () => {
       ),
   });
 
-  const register = async (user: RegisterUserInput) => {
+  const register = async (user: UserInput) => {
     try {
       const res = await registerMutation.mutateAsync(user);
       window.localStorage.setItem('token', res);
@@ -51,7 +50,7 @@ export const useAuthorization = () => {
 
   const loginMutation = useMutation({
     mutationKey: ['login'],
-    mutationFn: (user: LoginUserInput) =>
+    mutationFn: (user: UserInput) =>
       fetch(`${config.API_PATH}/login`, {
         method: 'POST',
         body: JSON.stringify(user),
@@ -63,7 +62,7 @@ export const useAuthorization = () => {
       ),
   });
 
-  const login = async (user: LoginUserInput) => {
+  const login = async (user: UserInput) => {
     try {
       const res = await loginMutation.mutateAsync(user);
       window.localStorage.setItem('token', res);
@@ -83,9 +82,9 @@ export const useAuthorization = () => {
   return {
     user: state.user,
     loggedIn: !!state.user,
+    login,
     loginLoading: loginMutation.isPending,
     loginError: loginMutation.error,
-    login,
     register,
     registerLoading: registerMutation.isPending,
     registerError: registerMutation.error,

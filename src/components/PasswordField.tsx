@@ -26,8 +26,8 @@ const PasswordField: React.FC<InputGroupProps> = (props) => {
         >
           <Button
             disabled={props.disabled}
-            icon={showPassword ? 'unlock' : 'lock'}
-            intent={Intent.WARNING}
+            icon={showPassword ? 'eye-off' : 'eye-open'}
+            intent={Intent.PRIMARY}
             onClick={handleLockClick}
             minimal
           />
