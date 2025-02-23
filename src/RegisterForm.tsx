@@ -1,16 +1,15 @@
 import { Button, InputGroup } from '@blueprintjs/core';
-import config from './config';
 import { useState } from 'react';
 import { useAuthorization } from './contexts/authorizationContext/useAuthorization';
 
-type RegisterUserInput = {
+export type RegisterUserInput = {
   username: string;
   email: string;
   password: string;
   confirmPassword: string;
 };
 
-type SubmitUserInput = Omit<RegisterUserInput, 'confirmPassword'>;
+export type SubmitUserInput = Omit<RegisterUserInput, 'confirmPassword'>;
 
 const useRegisterForm = () => {
   const [userInput, setUserInput] = useState<RegisterUserInput>({
@@ -30,31 +29,17 @@ const useRegisterForm = () => {
 };
 
 const RegisterForm = () => {
-  const { login } = useAuthorization();
+  const { register, registerLoading } = useAuthorization();
   const { userInput, onChangeField } = useRegisterForm();
 
   const onRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const input: SubmitUserInput = {
+    register({
       username: userInput.username,
       email: userInput.email,
       password: userInput.password,
-    };
-
-    try {
-      const res = await fetch(`${config.API_PATH}/register`, {
-        method: 'POST',
-        body: JSON.stringify(input),
-      });
-      if (!res.ok) throw Error(`Got statusCode ${res.status}`);
-
-      const string = await res.text();
-      console.log('RESPONSE: ', string);
-      login(string);
-    } catch (e) {
-      console.error(`Error logging in: ${e}`);
-    }
+    });
   };
 
   return (
@@ -82,7 +67,9 @@ const RegisterForm = () => {
         value={userInput.confirmPassword}
         onValueChange={(val) => onChangeField('confirmPassword', val)}
       />
-      <Button type="submit">REGISTER</Button>
+      <Button outlined type="submit" loading={registerLoading}>
+        REGISTER
+      </Button>
     </form>
   );
 };

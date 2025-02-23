@@ -1,9 +1,8 @@
 import { Button, InputGroup } from '@blueprintjs/core';
-import config from './config';
 import { useState } from 'react';
 import { useAuthorization } from './contexts/authorizationContext/useAuthorization';
 
-type LoginUserInput = {
+export type LoginUserInput = {
   username: string;
   email: string;
   password: string;
@@ -26,24 +25,12 @@ const useLoginForm = () => {
 };
 
 const LoginForm = () => {
-  const { login } = useAuthorization();
+  const { login, loginLoading } = useAuthorization();
   const { userInput, onChangeField } = useLoginForm();
 
   const onLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    try {
-      const res = await fetch(`${config.API_PATH}/login`, {
-        method: 'POST',
-        body: JSON.stringify(userInput),
-      });
-      if (!res.ok) throw Error(`Got statusCode ${res.status}`);
-
-      const string = await res.text();
-      login(string);
-    } catch (e) {
-      console.error(`Error logging in: ${e}`);
-    }
+    login(userInput);
   };
 
   return (
@@ -66,7 +53,9 @@ const LoginForm = () => {
         value={userInput.password}
         onValueChange={(val) => onChangeField('password', val)}
       />
-      <Button type="submit">LOGIN</Button>
+      <Button outlined type="submit" loading={loginLoading}>
+        LOGIN
+      </Button>
     </form>
   );
 };
