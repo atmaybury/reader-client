@@ -8,3 +8,8 @@ export const decodeToken = (tokenString: string) => {
     return null;
   }
 };
+
+export const validateEmail = (value?: string) =>
+  /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value || '') === false
+    ? 'Invalid email address'
+    : undefined;

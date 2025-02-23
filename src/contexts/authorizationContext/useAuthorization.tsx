@@ -6,7 +6,12 @@ import {
 import config from '../../config';
 import { LoginUserInput } from '../../LoginForm';
 import { decodeToken } from '../../core/helpers';
-import { SubmitUserInput } from '../../RegisterForm';
+
+type RegisterUserInput = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 /**
  * Hook for interacting with the AuthorizationContext
@@ -16,20 +21,32 @@ export const useAuthorization = () => {
   const dispatch = useAuthorizationDispatchContext();
 
   /* MUTATIONS */
+
   const registerMutation = useMutation({
     mutationKey: ['register'],
-    mutationFn: (user: SubmitUserInput) =>
+    mutationFn: async (user: RegisterUserInput) =>
       fetch(`${config.API_PATH}/register`, {
         method: 'POST',
         body: JSON.stringify(user),
-      }).then((res) => res.text()),
+      }).then(async (res) =>
+        res.text().then((body) => {
+          if (!res.ok) throw new Error(body || 'Unknown error');
+          return body;
+        }),
+      ),
   });
 
-  const register = async (user: SubmitUserInput) => {
-    const res = await registerMutation.mutateAsync(user);
-    window.localStorage.setItem('token', res);
-    const userToken = decodeToken(res);
-    if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
+  const register = async (user: RegisterUserInput) => {
+    try {
+      const res = await registerMutation.mutateAsync(user);
+      window.localStorage.setItem('token', res);
+      const userToken = decodeToken(res);
+      if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
+    } catch (e) {
+      if (e instanceof Error)
+        console.error('Error registering user: ', e?.message);
+      else console.error('Error registering user: ', e);
+    }
   };
 
   const loginMutation = useMutation({
@@ -38,14 +55,24 @@ export const useAuthorization = () => {
       fetch(`${config.API_PATH}/login`, {
         method: 'POST',
         body: JSON.stringify(user),
-      }).then((res) => res.text()),
+      }).then(async (res) =>
+        res.text().then((body) => {
+          if (!res.ok) throw new Error(body || 'Unknown error');
+          return body;
+        }),
+      ),
   });
 
   const login = async (user: LoginUserInput) => {
-    const res = await loginMutation.mutateAsync(user);
-    window.localStorage.setItem('token', res);
-    const userToken = decodeToken(res);
-    if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
+    try {
+      const res = await loginMutation.mutateAsync(user);
+      window.localStorage.setItem('token', res);
+      const userToken = decodeToken(res);
+      if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
+    } catch (e) {
+      if (e instanceof Error) console.error('Error logging in: ', e?.message);
+      else console.error('Error logging in: ', e);
+    }
   };
 
   const logout = () => {
