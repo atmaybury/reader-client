@@ -5,7 +5,7 @@ import useLoginForm from './useLoginForm';
 
 const LoginForm = () => {
   const { login, loginLoading, loginError } = useAuthorization();
-  const { userInput, onChangeField } = useLoginForm();
+  const { userInput, onChangeField, hasErrors } = useLoginForm();
 
   const onLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,9 +35,13 @@ const LoginForm = () => {
         value={userInput.values.password}
         onValueChange={(val) => onChangeField('password', val)}
       />
-      <Button outlined type="submit" loading={loginLoading}>
-        LOGIN
-      </Button>
+      <Button
+        outlined
+        type="submit"
+        loading={loginLoading}
+        disabled={hasErrors}
+        text="Login"
+      />
       {loginError && <h4>{loginError.message}</h4>}
     </form>
   );

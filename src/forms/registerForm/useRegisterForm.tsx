@@ -106,6 +106,7 @@ const useRegisterForm = () => {
   return {
     userInput: state,
     onChangeField,
+    hasErrors: Object.values(state.errors).some(Boolean),
   };
 };
 

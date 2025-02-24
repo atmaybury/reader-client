@@ -88,6 +88,7 @@ const useLoginForm = () => {
   return {
     userInput: state,
     onChangeField,
+    hasErrors: Object.values(state.errors).some(Boolean),
   };
 };
 

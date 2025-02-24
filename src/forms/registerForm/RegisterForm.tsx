@@ -5,7 +5,7 @@ import useRegisterForm from './useRegisterForm';
 
 const RegisterForm = () => {
   const { register, registerLoading } = useAuthorization();
-  const { userInput, onChangeField } = useRegisterForm();
+  const { userInput, onChangeField, hasErrors } = useRegisterForm();
 
   const onRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,9 +40,13 @@ const RegisterForm = () => {
         value={userInput.values.confirmPassword}
         onValueChange={(val) => onChangeField('confirmPassword', val)}
       />
-      <Button outlined type="submit" loading={registerLoading}>
-        REGISTER
-      </Button>
+      <Button
+        outlined
+        type="submit"
+        loading={registerLoading}
+        disabled={hasErrors}
+        text="Register"
+      />
     </form>
   );
 };

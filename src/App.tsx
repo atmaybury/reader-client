@@ -1,6 +1,6 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AuthorizationProvider } from './contexts/authorizationContext/AuthorizationContext';
-import { Button } from '@blueprintjs/core';
+import { Alignment, Button, Navbar } from '@blueprintjs/core';
 import { useAuthorization } from './contexts/authorizationContext/useAuthorization';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LoginForm from './forms/loginForm/LoginForm';
@@ -39,11 +39,38 @@ const MainApp = () => {
 const LoggedInScreen = () => {
   const { logout } = useAuthorization();
   return (
-    <ScreenWrapper>
-      <Button outlined onClick={logout}>
-        LOGOUT
-      </Button>
-    </ScreenWrapper>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Navbar>
+        <Navbar.Group align={Alignment.LEFT}>
+          <Navbar.Heading>Reader</Navbar.Heading>
+          <Navbar.Divider />
+        </Navbar.Group>
+        <Navbar.Group align={Alignment.RIGHT}>
+          <Navbar.Divider />
+          <Button
+            className="bp5-minimal"
+            icon="log-out"
+            onClick={logout}
+            text="Log out"
+          />
+        </Navbar.Group>
+      </Navbar>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
+      ></div>
+    </div>
   );
 };
 
@@ -55,7 +82,16 @@ const LoggedOutScreen = () => {
   const onChangeForm = (form: FormType) => setForm(form);
 
   return (
-    <ScreenWrapper>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'tan',
+      }}
+    >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {form === 'login' ? <LoginForm /> : <RegisterForm />}
         <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
@@ -64,36 +100,19 @@ const LoggedOutScreen = () => {
             onClick={() => onChangeForm('login')}
             disabled={form === 'login'}
             style={{ flex: 1 }}
-          >
-            Login
-          </Button>
+            text="Login"
+          />
           <Button
             minimal
             onClick={() => onChangeForm('register')}
             disabled={form === 'register'}
             style={{ flex: 1 }}
-          >
-            Register
-          </Button>
+            text="Register"
+          />
         </div>
       </div>
-    </ScreenWrapper>
+    </div>
   );
 };
-
-const ScreenWrapper = ({ children }: { children: ReactNode }) => (
-  <div
-    style={{
-      width: '100vw',
-      height: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'tan',
-    }}
-  >
-    {children}
-  </div>
-);
 
 export default App;
