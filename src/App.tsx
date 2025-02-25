@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { AuthorizationProvider } from './contexts/authorizationContext/AuthorizationContext';
-import { Alignment, Button, Navbar } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import { useAuthorization } from './contexts/authorizationContext/useAuthorization';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LoginForm from './forms/loginForm/LoginForm';
 import RegisterForm from './forms/registerForm/RegisterForm';
+import Home from './components/Home';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,8 @@ const App = () => (
 const MainApp = () => {
   const { loggedIn, user } = useAuthorization();
 
+  console.log('LOGGED IN: ', loggedIn);
+
   useEffect(() => {
     console.log('User: ', user);
   }, [user]);
@@ -31,45 +34,7 @@ const MainApp = () => {
         display: 'flex',
       }}
     >
-      {loggedIn ? <LoggedInScreen /> : <LoggedOutScreen />}
-    </div>
-  );
-};
-
-const LoggedInScreen = () => {
-  const { logout } = useAuthorization();
-  return (
-    <div
-      style={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-    >
-      <Navbar>
-        <Navbar.Group align={Alignment.LEFT}>
-          <Navbar.Heading>Reader</Navbar.Heading>
-          <Navbar.Divider />
-        </Navbar.Group>
-        <Navbar.Group align={Alignment.RIGHT}>
-          <Navbar.Divider />
-          <Button
-            className="bp5-minimal"
-            icon="log-out"
-            onClick={logout}
-            text="Log out"
-          />
-        </Navbar.Group>
-      </Navbar>
-      <div
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'row',
-        }}
-      ></div>
+      {loggedIn ? <Home /> : <LoggedOutScreen />}
     </div>
   );
 };
@@ -89,7 +54,6 @@ const LoggedOutScreen = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'tan',
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

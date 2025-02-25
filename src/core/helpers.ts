@@ -1,3 +1,4 @@
+import { z } from 'zod';
 export const decodeToken = (tokenString: string) => {
   try {
     const [_, payload] = tokenString.split('.');
@@ -10,6 +11,6 @@ export const decodeToken = (tokenString: string) => {
 };
 
 export const validateEmail = (value?: string) =>
-  /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(value || '') === false
-    ? 'Invalid email address'
-    : undefined;
+  z.string().email().safeParse(value).success
+    ? undefined
+    : 'Invalid email address';

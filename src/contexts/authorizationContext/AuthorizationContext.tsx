@@ -2,23 +2,39 @@ import React, { createContext, useContext, useReducer } from 'react';
 import { decodeToken } from '../../core/helpers';
 
 type UserToken = {
+  id: string;
   username: string;
   email: string;
+  exp: number;
+};
+
+const defaultUserToken = {
+  id: 'none',
+  username: 'none',
+  email: 'none',
+  exp: 0,
 };
 
 type AuthorizationState = {
-  user?: UserToken;
+  token: string;
+  user: UserToken;
+  loggedIn: boolean;
 };
 
 const defaultAuthorizationState: AuthorizationState = {
-  user: undefined,
+  token: '',
+  user: defaultUserToken,
+  loggedIn: false,
 };
 
 /* Action types */
 
 type LoginAction = {
   type: 'LOGIN';
-  payload: UserToken;
+  payload: {
+    token: string;
+    user: UserToken;
+  };
 };
 
 type LogoutAction = {
@@ -33,9 +49,14 @@ const authorizationReducer = (
 ) => {
   switch (action.type) {
     case 'LOGIN':
-      return { ...state, user: action.payload };
+      return {
+        ...state,
+        token: action.payload.token,
+        user: action.payload.user,
+        loggedIn: true,
+      };
     case 'LOGOUT':
-      return { ...state, user: undefined };
+      return { ...state, token: '', user: defaultUserToken, loggedIn: false };
     default:
       return state;
   }
@@ -56,11 +77,12 @@ export const AuthorizationProvider = ({ children }: Props) => {
     defaultAuthorizationState,
   );
 
-  if (!state.user) {
+  if (!state.loggedIn) {
     const token = window.localStorage.getItem('token');
     if (token) {
       const userToken = decodeToken(token);
-      if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
+      if (userToken)
+        dispatch({ type: 'LOGIN', payload: { token, user: userToken } });
     }
   }
 

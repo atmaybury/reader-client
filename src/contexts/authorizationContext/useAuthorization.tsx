@@ -64,10 +64,11 @@ export const useAuthorization = () => {
 
   const login = async (user: UserInput) => {
     try {
-      const res = await loginMutation.mutateAsync(user);
-      window.localStorage.setItem('token', res);
-      const userToken = decodeToken(res);
-      if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
+      const token = await loginMutation.mutateAsync(user);
+      window.localStorage.setItem('token', token);
+      const userToken = decodeToken(token);
+      if (userToken)
+        dispatch({ type: 'LOGIN', payload: { token, user: userToken } });
     } catch (e) {
       if (e instanceof Error) console.error('Error logging in: ', e?.message);
       else console.error('Error logging in: ', e);
@@ -80,8 +81,9 @@ export const useAuthorization = () => {
   };
 
   return {
+    token: state.token,
     user: state.user,
-    loggedIn: !!state.user,
+    loggedIn: state.loggedIn,
     login,
     loginLoading: loginMutation.isPending,
     loginError: loginMutation.error,
