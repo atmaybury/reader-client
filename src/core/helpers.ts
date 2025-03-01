@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 export const decodeToken = (tokenString: string) => {
   try {
     const [_, payload] = tokenString.split('.');

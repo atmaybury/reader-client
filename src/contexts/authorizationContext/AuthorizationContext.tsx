@@ -1,14 +1,17 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import { decodeToken } from '../../core/helpers';
+import { z } from 'zod';
 
-type UserToken = {
-  id: string;
-  username: string;
-  email: string;
-  exp: number;
-};
+export const UserTokenSchema = z.object({
+  id: z.string(),
+  username: z.string(),
+  email: z.string().email(),
+  exp: z.number(),
+});
 
-const defaultUserToken = {
+type UserToken = z.infer<typeof UserTokenSchema>;
+
+const defaultUserToken: UserToken = {
   id: 'none',
   username: 'none',
   email: 'none',

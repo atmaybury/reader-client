@@ -20,9 +20,8 @@ const App = () => (
 const MainApp = () => {
   const { loggedIn, user } = useAuthorization();
 
-  console.log('LOGGED IN: ', loggedIn);
-
   useEffect(() => {
+    console.log('Logged in: ', loggedIn);
     console.log('User: ', user);
   }, [user]);
 
@@ -58,6 +57,7 @@ const LoggedOutScreen = () => {
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {form === 'login' ? <LoginForm /> : <RegisterForm />}
+
         <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
           <Button
             minimal

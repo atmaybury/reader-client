@@ -3,10 +3,13 @@ import {
   useAuthorizationDispatchContext,
   useAuthorizationStateContext,
 } from './AuthorizationContext';
-import config from '../../config';
 import { decodeToken } from '../../core/helpers';
+import {
+  loginUserMutation,
+  registerUserMutation,
+} from '../../core/apiFunctions';
 
-type UserInput = {
+export type UserInput = {
   username: string;
   email: string;
   password: string;
@@ -23,16 +26,7 @@ export const useAuthorization = () => {
 
   const registerMutation = useMutation({
     mutationKey: ['register'],
-    mutationFn: async (user: UserInput) =>
-      fetch(`${config.API_PATH}/register`, {
-        method: 'POST',
-        body: JSON.stringify(user),
-      }).then(async (res) =>
-        res.text().then((body) => {
-          if (!res.ok) throw new Error(body || 'Unknown error');
-          return body;
-        }),
-      ),
+    mutationFn: registerUserMutation,
   });
 
   const register = async (user: UserInput) => {
@@ -42,24 +36,16 @@ export const useAuthorization = () => {
       const userToken = decodeToken(res);
       if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
     } catch (e) {
-      if (e instanceof Error)
-        console.error('Error registering user: ', e?.message);
-      else console.error('Error registering user: ', e);
+      console.error(
+        'Error registering user: ',
+        e instanceof Error ? e?.message : e,
+      );
     }
   };
 
   const loginMutation = useMutation({
     mutationKey: ['login'],
-    mutationFn: (user: UserInput) =>
-      fetch(`${config.API_PATH}/login`, {
-        method: 'POST',
-        body: JSON.stringify(user),
-      }).then(async (res) =>
-        res.text().then((body) => {
-          if (!res.ok) throw new Error(body || 'Unknown error');
-          return body;
-        }),
-      ),
+    mutationFn: loginUserMutation,
   });
 
   const login = async (user: UserInput) => {
@@ -70,8 +56,7 @@ export const useAuthorization = () => {
       if (userToken)
         dispatch({ type: 'LOGIN', payload: { token, user: userToken } });
     } catch (e) {
-      if (e instanceof Error) console.error('Error logging in: ', e?.message);
-      else console.error('Error logging in: ', e);
+      console.error('Error logging in: ', e instanceof Error ? e?.message : e);
     }
   };
 
