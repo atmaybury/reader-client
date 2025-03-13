@@ -1,32 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
-import { useAuthorization } from '../contexts/authorizationContext/useAuthorization';
-import { getUserSubscriptionsQuery } from '../core/apiFunctions';
-import { Menu, MenuItem } from '@blueprintjs/core';
-import { useEffect, useState } from 'react';
+import { Divider, Menu, MenuItem } from '@blueprintjs/core';
+import { useReader } from '../contexts/readerContext/useReader';
+import AddSubscriptionForm from '../forms/addSubscriptionForm/AddSubscriptionForm';
+import { useEffect } from 'react';
 
 const Sidebar = () => {
-  const { token } = useAuthorization();
-
-  const [selectedSubscriptionId, setSelectedSubscriptionId] = useState<
-    string | undefined
-  >(undefined);
-
-  useEffect(() => {
-    console.log(selectedSubscriptionId);
-  }, [selectedSubscriptionId]);
-
-  const { data, isPending, error } = useQuery({
-    queryKey: ['getUserSubscriptions'],
-    queryFn: () => getUserSubscriptionsQuery(token),
-    enabled: !!token,
-  });
+  const { userSubscriptions, setSelectedSubscriptionId } = useReader();
 
   const handleClick = (subscriptionId: string) =>
     setSelectedSubscriptionId(subscriptionId);
 
-  if (isPending) return <h4>Loading</h4>;
-
-  if (error) return <h4>Error</h4>;
+  useEffect(() => {
+    console.log(userSubscriptions);
+  }, [userSubscriptions]);
 
   return (
     <div
@@ -34,11 +19,13 @@ const Sidebar = () => {
         display: 'flex',
         flexDirection: 'column',
         padding: 10,
-        minWidth: 0,
+        width: '200px',
       }}
     >
+      <AddSubscriptionForm />
+      <Divider />
       <Menu>
-        {data.map((s) => (
+        {userSubscriptions.map((s) => (
           <MenuItem
             key={s.id}
             text={s.title}

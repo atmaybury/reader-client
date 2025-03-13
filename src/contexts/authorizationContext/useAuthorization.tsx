@@ -4,10 +4,7 @@ import {
   useAuthorizationStateContext,
 } from './AuthorizationContext';
 import { decodeToken } from '../../core/helpers';
-import {
-  loginUserMutation,
-  registerUserMutation,
-} from '../../core/apiFunctions';
+import { loginUserRequest, registerUserRequest } from '../../core/apiFunctions';
 
 export type UserInput = {
   username: string;
@@ -24,14 +21,14 @@ export const useAuthorization = () => {
 
   /* MUTATIONS */
 
-  const registerMutation = useMutation({
+  const registerUserMutation = useMutation({
     mutationKey: ['register'],
-    mutationFn: registerUserMutation,
+    mutationFn: registerUserRequest,
   });
 
   const register = async (user: UserInput) => {
     try {
-      const res = await registerMutation.mutateAsync(user);
+      const res = await registerUserMutation.mutateAsync(user);
       window.localStorage.setItem('token', res);
       const userToken = decodeToken(res);
       if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
@@ -43,14 +40,14 @@ export const useAuthorization = () => {
     }
   };
 
-  const loginMutation = useMutation({
+  const loginUserMutation = useMutation({
     mutationKey: ['login'],
-    mutationFn: loginUserMutation,
+    mutationFn: loginUserRequest,
   });
 
   const login = async (user: UserInput) => {
     try {
-      const token = await loginMutation.mutateAsync(user);
+      const token = await loginUserMutation.mutateAsync(user);
       window.localStorage.setItem('token', token);
       const userToken = decodeToken(token);
       if (userToken)
@@ -70,11 +67,11 @@ export const useAuthorization = () => {
     user: state.user,
     loggedIn: state.loggedIn,
     login,
-    loginLoading: loginMutation.isPending,
-    loginError: loginMutation.error,
+    loginLoading: loginUserMutation.isPending,
+    loginError: loginUserMutation.error,
     register,
-    registerLoading: registerMutation.isPending,
-    registerError: registerMutation.error,
+    registerLoading: registerUserMutation.isPending,
+    registerError: registerUserMutation.error,
     logout,
   };
 };

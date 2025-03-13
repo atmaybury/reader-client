@@ -1,11 +1,6 @@
 import Header from './Header';
+import MainPanel from './MainPanel';
 import Sidebar from './Sidebar';
-
-export type Subscription = {
-  id: string;
-  title: string;
-  url: string;
-};
 
 const Home = () => (
   <div
@@ -26,19 +21,12 @@ const Home = () => (
         flexDirection: 'row',
       }}
     >
-      <div
-        style={{
-          flex: 1,
-        }}
-      >
+      <div style={{ flex: 1 }}>
         <Sidebar />
       </div>
-      <div
-        style={{
-          flex: 3,
-          backgroundColor: 'tan',
-        }}
-      ></div>
+      <div style={{ flex: 3 }}>
+        <MainPanel />
+      </div>
     </div>
   </div>
 );
