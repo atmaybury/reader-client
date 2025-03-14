@@ -1,7 +1,11 @@
 import { useReducer } from 'react';
 import { validateEmail } from '../../core/helpers';
 
-type LoginFormKey = 'username' | 'email' | 'password';
+export enum LoginFormKey {
+  USERNAME = 'username',
+  EMAIL = 'email',
+  PASSWORD = 'password',
+}
 
 export type LoginFormState = {
   values: {
@@ -12,7 +16,7 @@ export type LoginFormState = {
   };
 };
 
-const defaultLoginUserState: LoginFormState = {
+export const defaultLoginUserState: LoginFormState = {
   values: {
     username: '',
     email: '',
@@ -41,7 +45,7 @@ type LoginFormReducerAction =
   | UpdateEmailAction
   | UpdatePasswordAction;
 
-const loginFormReducer = (
+export const loginFormReducer = (
   state: LoginFormState,
   action: LoginFormReducerAction,
 ) => {
@@ -66,7 +70,7 @@ const loginFormReducer = (
   }
 };
 
-const useLoginForm = () => {
+const useLogin = () => {
   const [state, dispatch] = useReducer(loginFormReducer, defaultLoginUserState);
 
   const onChangeField = (key: LoginFormKey, value: string) => {
@@ -92,4 +96,4 @@ const useLoginForm = () => {
   };
 };
 
-export default useLoginForm;
+export default useLogin;

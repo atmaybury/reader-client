@@ -1,11 +1,11 @@
 import { Button, InputGroup } from '@blueprintjs/core';
 import { useAuthorization } from '../../contexts/authorizationContext/useAuthorization';
 import PasswordField from '../../components/PasswordField';
-import useLoginForm from './useLoginForm';
+import useLogin, { LoginFormKey } from './useLogin';
 
 const LoginForm = () => {
   const { login, loginLoading, loginError } = useAuthorization();
-  const { userInput, onChangeField, hasErrors } = useLoginForm();
+  const { userInput, onChangeField, hasErrors } = useLogin();
 
   const onLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,16 +24,16 @@ const LoginForm = () => {
       <InputGroup
         placeholder="Username"
         value={userInput.values.username}
-        onValueChange={(val) => onChangeField('username', val)}
+        onValueChange={(val) => onChangeField(LoginFormKey.USERNAME, val)}
       />
       <InputGroup
         placeholder="Email"
         value={userInput.values.email}
-        onValueChange={(val) => onChangeField('email', val)}
+        onValueChange={(val) => onChangeField(LoginFormKey.EMAIL, val)}
       />
       <PasswordField
         value={userInput.values.password}
-        onValueChange={(val) => onChangeField('password', val)}
+        onValueChange={(val) => onChangeField(LoginFormKey.PASSWORD, val)}
       />
       <Button
         outlined

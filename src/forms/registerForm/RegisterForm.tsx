@@ -1,11 +1,11 @@
 import { Button, InputGroup } from '@blueprintjs/core';
 import { useAuthorization } from '../../contexts/authorizationContext/useAuthorization';
 import PasswordField from '../../components/PasswordField';
-import useRegisterForm from './useRegisterForm';
+import useRegister, { RegisterFormKey } from './useRegister';
 
 const RegisterForm = () => {
   const { register, registerLoading } = useAuthorization();
-  const { userInput, onChangeField, hasErrors } = useRegisterForm();
+  const { userInput, onChangeField, hasErrors } = useRegister();
 
   const onRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,20 +25,22 @@ const RegisterForm = () => {
       <InputGroup
         placeholder="Username"
         value={userInput.values.username}
-        onValueChange={(val) => onChangeField('username', val)}
+        onValueChange={(val) => onChangeField(RegisterFormKey.USERNAME, val)}
       />
       <InputGroup
         placeholder="Email"
         value={userInput.values.email}
-        onValueChange={(val) => onChangeField('email', val)}
+        onValueChange={(val) => onChangeField(RegisterFormKey.EMAIL, val)}
       />
       <PasswordField
         value={userInput.values.password}
-        onValueChange={(val) => onChangeField('password', val)}
+        onValueChange={(val) => onChangeField(RegisterFormKey.PASSWORD, val)}
       />
       <PasswordField
         value={userInput.values.confirmPassword}
-        onValueChange={(val) => onChangeField('confirmPassword', val)}
+        onValueChange={(val) =>
+          onChangeField(RegisterFormKey.CONFIRM_PASSWORD, val)
+        }
       />
       <Button
         outlined

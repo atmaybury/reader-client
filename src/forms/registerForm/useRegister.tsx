@@ -1,7 +1,12 @@
 import { useReducer } from 'react';
 import { validateEmail } from '../../core/helpers';
 
-type RegisterFormKey = 'username' | 'email' | 'password' | 'confirmPassword';
+export enum RegisterFormKey {
+  USERNAME = 'username',
+  EMAIL = 'email',
+  PASSWORD = 'password',
+  CONFIRM_PASSWORD = 'confirmPassword',
+}
 
 export type RegisterFormState = {
   values: {
@@ -78,7 +83,7 @@ const registerFormReducer = (
   }
 };
 
-const useRegisterForm = () => {
+const useRegister = () => {
   const [state, dispatch] = useReducer(
     registerFormReducer,
     defaultRegisterFormState,
@@ -110,4 +115,4 @@ const useRegisterForm = () => {
   };
 };
 
-export default useRegisterForm;
+export default useRegister;
