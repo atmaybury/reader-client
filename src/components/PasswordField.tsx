@@ -18,7 +18,6 @@ const PasswordField: React.FC<InputGroupProps> = (props) => {
   return (
     <InputGroup
       {...props}
-      placeholder={props.placeholder || 'Password'}
       rightElement={
         <Tooltip
           content={`${showPassword ? 'Hide' : 'Show'} Password`}

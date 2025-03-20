@@ -17,7 +17,7 @@ export type RegisterFormState = {
   };
 };
 
-const defaultRegisterFormState: RegisterFormState = {
+export const defaultRegisterFormState: RegisterFormState = {
   values: {
     username: '',
     email: '',
@@ -53,7 +53,7 @@ type RegisterFormReducerAction =
   | UpdatePasswordAction
   | UpdateConfirmPasswordAction;
 
-const registerFormReducer = (
+export const registerFormReducer = (
   state: RegisterFormState,
   action: RegisterFormReducerAction,
 ) => {
@@ -108,10 +108,14 @@ const useRegister = () => {
     }
   };
 
+  const valid =
+    !Object.values(state.errors).some(Boolean) &&
+    !Object.values(state.values).some((v) => v === '');
+
   return {
-    userInput: state,
+    formState: state,
     onChangeField,
-    hasErrors: Object.values(state.errors).some(Boolean),
+    valid,
   };
 };
 

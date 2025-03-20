@@ -1,19 +1,19 @@
-import { Button, InputGroup } from '@blueprintjs/core';
+import { Button, FormGroup, InputGroup } from '@blueprintjs/core';
 import { useAuthorization } from '../../contexts/authorizationContext/useAuthorization';
 import PasswordField from '../../components/PasswordField';
 import useRegister, { RegisterFormKey } from './useRegister';
 
 const RegisterForm = () => {
   const { register, registerLoading } = useAuthorization();
-  const { userInput, onChangeField, hasErrors } = useRegister();
+  const { formState, onChangeField, valid } = useRegister();
 
   const onRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     register({
-      username: userInput.values.username,
-      email: userInput.values.email,
-      password: userInput.values.password,
+      username: formState.values.username,
+      email: formState.values.email,
+      password: formState.values.password,
     });
   };
 
@@ -22,31 +22,57 @@ const RegisterForm = () => {
       style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
       onSubmit={onRegister}
     >
-      <InputGroup
-        placeholder="Username"
-        value={userInput.values.username}
-        onValueChange={(val) => onChangeField(RegisterFormKey.USERNAME, val)}
-      />
-      <InputGroup
-        placeholder="Email"
-        value={userInput.values.email}
-        onValueChange={(val) => onChangeField(RegisterFormKey.EMAIL, val)}
-      />
-      <PasswordField
-        value={userInput.values.password}
-        onValueChange={(val) => onChangeField(RegisterFormKey.PASSWORD, val)}
-      />
-      <PasswordField
-        value={userInput.values.confirmPassword}
-        onValueChange={(val) =>
-          onChangeField(RegisterFormKey.CONFIRM_PASSWORD, val)
-        }
-      />
+      <FormGroup
+        helperText=""
+        label="Username"
+        labelFor={RegisterFormKey.USERNAME}
+      >
+        <InputGroup
+          id={RegisterFormKey.USERNAME}
+          value={formState.values.username}
+          onValueChange={(val) => onChangeField(RegisterFormKey.USERNAME, val)}
+        />
+      </FormGroup>
+
+      <FormGroup helperText="" label="Email" labelFor={RegisterFormKey.EMAIL}>
+        <InputGroup
+          id={RegisterFormKey.EMAIL}
+          value={formState.values.email}
+          onValueChange={(val) => onChangeField(RegisterFormKey.EMAIL, val)}
+        />
+      </FormGroup>
+
+      <FormGroup
+        helperText=""
+        label="Password"
+        labelFor={RegisterFormKey.PASSWORD}
+      >
+        <PasswordField
+          id={RegisterFormKey.PASSWORD}
+          value={formState.values.password}
+          onValueChange={(val) => onChangeField(RegisterFormKey.PASSWORD, val)}
+        />
+      </FormGroup>
+
+      <FormGroup
+        helperText=""
+        label="Confirm password"
+        labelFor={RegisterFormKey.CONFIRM_PASSWORD}
+      >
+        <PasswordField
+          id={RegisterFormKey.CONFIRM_PASSWORD}
+          value={formState.values.confirmPassword}
+          onValueChange={(val) =>
+            onChangeField(RegisterFormKey.CONFIRM_PASSWORD, val)
+          }
+        />
+      </FormGroup>
+
       <Button
         outlined
         type="submit"
         loading={registerLoading}
-        disabled={hasErrors}
+        disabled={!valid}
         text="Register"
       />
     </form>

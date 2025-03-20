@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import useLogin, {
-  defaultLoginUserState,
+  defaultLoginFormState,
   LoginFormKey,
   loginFormReducer,
 } from './useLogin';
@@ -11,13 +11,13 @@ describe('useLogin hook', () => {
     it('returns the default state initially', () => {
       const { result } = renderHook(() => useLogin());
 
-      expect(result.current.userInput).toBe(defaultLoginUserState);
+      expect(result.current.formState).toBe(defaultLoginFormState);
     });
 
-    it('hasErrors is false initially', () => {
+    it('valid is false initially', () => {
       const { result } = renderHook(() => useLogin());
 
-      expect(result.current.hasErrors).toBe(false);
+      expect(result.current.valid).toBe(false);
     });
   });
 
@@ -30,7 +30,7 @@ describe('useLogin hook', () => {
       act(() => {
         result.current.onChangeField(LoginFormKey.USERNAME, usernameInput);
       });
-      expect(result.current.userInput.values.username).toBe(usernameInput);
+      expect(result.current.formState.values.username).toBe(usernameInput);
     });
   });
 
@@ -43,7 +43,7 @@ describe('useLogin hook', () => {
       act(() => {
         result.current.onChangeField(LoginFormKey.EMAIL, emailInput);
       });
-      expect(result.current.userInput.values.email).toBe(emailInput);
+      expect(result.current.formState.values.email).toBe(emailInput);
     });
 
     it('raises an error on invalid email, clears on valid', () => {
@@ -55,29 +55,33 @@ describe('useLogin hook', () => {
       act(() => {
         result.current.onChangeField(LoginFormKey.EMAIL, badEmailInput);
       });
-      expect(result.current.userInput.errors.email).toBeDefined();
+      expect(result.current.formState.errors.email).toBeDefined();
 
       act(() => {
         result.current.onChangeField(LoginFormKey.EMAIL, goodEmailInput);
       });
-      expect(result.current.userInput.errors.email).toBeUndefined();
+      expect(result.current.formState.errors.email).toBeUndefined();
     });
 
-    it('hasErrors returns true when error present, false when none present', () => {
+    it('valid returns false when error present, true when none present', () => {
       const { result } = renderHook(() => useLogin());
 
+      const usernameInput = 'username';
       const badEmailInput = 'test@test';
       const goodEmailInput = 'test@test.com';
+      const passwordInput = 'password';
 
       act(() => {
+        result.current.onChangeField(LoginFormKey.USERNAME, usernameInput);
         result.current.onChangeField(LoginFormKey.EMAIL, badEmailInput);
+        result.current.onChangeField(LoginFormKey.PASSWORD, passwordInput);
       });
-      expect(result.current.hasErrors).toBe(true);
+      expect(result.current.valid).toBe(false);
 
       act(() => {
         result.current.onChangeField(LoginFormKey.EMAIL, goodEmailInput);
       });
-      expect(result.current.hasErrors).toBe(false);
+      expect(result.current.valid).toBe(true);
     });
   });
 
@@ -90,7 +94,7 @@ describe('useLogin hook', () => {
       act(() => {
         result.current.onChangeField(LoginFormKey.PASSWORD, passwordInput);
       });
-      expect(result.current.userInput.values.password).toBe(passwordInput);
+      expect(result.current.formState.values.password).toBe(passwordInput);
     });
   });
 
@@ -100,13 +104,13 @@ describe('useLogin hook', () => {
     act(() => {
       result.current.onChangeField('invalidKey' as LoginFormKey, 'test');
     });
-    expect(result.current.userInput).toBe(defaultLoginUserState);
+    expect(result.current.formState).toBe(defaultLoginFormState);
   });
 
   it('loginReducer default case for unknown action', () => {
     const unknownAction = { type: 'UNKNOWN_ACTION' } as any;
-    const newState = loginFormReducer(defaultLoginUserState, unknownAction);
+    const newState = loginFormReducer(defaultLoginFormState, unknownAction);
 
-    expect(newState).toEqual(defaultLoginUserState);
+    expect(newState).toEqual(defaultLoginFormState);
   });
 });

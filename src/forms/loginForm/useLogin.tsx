@@ -16,7 +16,7 @@ export type LoginFormState = {
   };
 };
 
-export const defaultLoginUserState: LoginFormState = {
+export const defaultLoginFormState: LoginFormState = {
   values: {
     username: '',
     email: '',
@@ -71,7 +71,7 @@ export const loginFormReducer = (
 };
 
 const useLogin = () => {
-  const [state, dispatch] = useReducer(loginFormReducer, defaultLoginUserState);
+  const [state, dispatch] = useReducer(loginFormReducer, defaultLoginFormState);
 
   const onChangeField = (key: LoginFormKey, value: string) => {
     switch (key) {
@@ -89,10 +89,14 @@ const useLogin = () => {
     }
   };
 
+  const valid =
+    !Object.values(state.errors).some(Boolean) &&
+    !Object.values(state.values).some((v) => v === '');
+
   return {
-    userInput: state,
+    formState: state,
     onChangeField,
-    hasErrors: Object.values(state.errors).some(Boolean),
+    valid,
   };
 };
 
