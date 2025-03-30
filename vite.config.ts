@@ -5,7 +5,7 @@ import checker from 'vite-plugin-checker';
 export default defineConfig({
   server: {
     watch: {
-      ignored: ['**/coverage/**'],
+      ignored: ['**/coverage/**', 'node_modules/**'],
     },
   },
   plugins: [
