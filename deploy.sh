@@ -13,4 +13,4 @@ echo "Pushing new image..."
 docker push australia-southeast2-docker.pkg.dev/reader-454209/reader-repository/reader-client:latest
 
 echo "Restarting deployment..."
-kubectl rollout restart deployment/reader-api -n reader-app
+kubectl rollout restart deployment/reader-client -n reader-app
