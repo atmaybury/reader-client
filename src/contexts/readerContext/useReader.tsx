@@ -3,7 +3,10 @@ import {
   useReaderDispatchContext,
   useReaderStateContext,
 } from './ReaderContext';
-import { addSubscriptionRequest } from '../../core/apiFunctions';
+import {
+  addSubscriptionRequest,
+  searchSubscriptionRequest,
+} from '../../core/apiFunctions';
 
 export type UserInput = {
   username: string;
@@ -17,6 +20,24 @@ export type UserInput = {
 export const useReader = () => {
   const state = useReaderStateContext();
   const dispatch = useReaderDispatchContext();
+
+  const searchSubscriptionMutation = useMutation({
+    mutationKey: ['searchSubscription'],
+    mutationFn: searchSubscriptionRequest,
+  });
+
+  const searchSubscription = async (url: string) => {
+    try {
+      const addedSubscriptions =
+        await searchSubscriptionMutation.mutateAsync(url);
+      console.log(addedSubscriptions);
+    } catch (e) {
+      console.error(
+        'Error adding subscription: ',
+        e instanceof Error ? e?.message : e,
+      );
+    }
+  };
 
   const addSubscriptionMutation = useMutation({
     mutationKey: ['addSubscription'],
@@ -48,6 +69,8 @@ export const useReader = () => {
 
   return {
     userSubscriptions: state.userSubscriptions,
+    searchSubscription,
+    searchSubscriptionLoading: searchSubscriptionMutation.isPending,
     addSubscription,
     addSubscriptionLoading: addSubscriptionMutation.isPending,
     selectedSubscriptionId: state.selectedSubscriptionId,

@@ -23,12 +23,12 @@ const useAddSubscription = () => {
 };
 
 const AddSubscriptionForm = () => {
-  const { addSubscription, addSubscriptionLoading } = useReader();
+  const { searchSubscription, searchSubscriptionLoading } = useReader();
   const { url, valid, onChangeUrl } = useAddSubscription();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    addSubscription(url);
+    searchSubscription(url);
   };
 
   return (
@@ -43,9 +43,9 @@ const AddSubscriptionForm = () => {
       />
       <Button
         type="submit"
-        title="Add"
-        text="Add"
-        loading={addSubscriptionLoading}
+        title="Search"
+        text="Search"
+        loading={searchSubscriptionLoading}
         disabled={!valid}
       />
     </form>

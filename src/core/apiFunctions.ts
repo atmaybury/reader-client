@@ -57,3 +57,20 @@ export const addSubscriptionRequest = async (url: string) => {
     }),
   );
 };
+
+export const searchSubscriptionRequest = async (url: string) => {
+  const token = window.localStorage.getItem('token');
+
+  return fetch(`${config.API_PATH}/search-subscription?url=${url}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  }).then(async (res) =>
+    res.text().then((body) => {
+      if (!res.ok) throw new Error(body || 'Unknown error');
+      return JSON.parse(body) as Subscription[];
+    }),
+  );
+};
