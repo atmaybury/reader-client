@@ -1,6 +1,9 @@
 import config from '../config';
 import { UserInput } from '../contexts/authorizationContext/useAuthorization';
-import { Subscription } from '../contexts/readerContext/ReaderContext';
+import {
+  Subscription,
+  SubscriptionTag,
+} from '../contexts/readerContext/ReaderContext';
 
 export const registerUserRequest = (user: UserInput) =>
   fetch(`${config.API_PATH}/register`, {
@@ -41,23 +44,6 @@ export const getUserSubscriptionsRequest = async () => {
   );
 };
 
-export const addSubscriptionRequest = async (url: string) => {
-  const token = window.localStorage.getItem('token');
-
-  return fetch(`${config.API_PATH}/add-subscription?url=${url}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  }).then(async (res) =>
-    res.text().then((body) => {
-      if (!res.ok) throw new Error(body || 'Unknown error');
-      return JSON.parse(body) as Subscription[];
-    }),
-  );
-};
-
 export const searchSubscriptionRequest = async (url: string) => {
   const token = window.localStorage.getItem('token');
 
@@ -67,6 +53,26 @@ export const searchSubscriptionRequest = async (url: string) => {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     },
+  }).then(async (res) =>
+    res.text().then((body) => {
+      if (!res.ok) throw new Error(body || 'Unknown error');
+      return JSON.parse(body) as SubscriptionTag[];
+    }),
+  );
+};
+
+export const addSubscriptionsRequest = async (
+  subscriptionTags: SubscriptionTag[],
+) => {
+  const token = window.localStorage.getItem('token');
+
+  return fetch(`${config.API_PATH}/add-subscriptions`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(subscriptionTags),
   }).then(async (res) =>
     res.text().then((body) => {
       if (!res.ok) throw new Error(body || 'Unknown error');

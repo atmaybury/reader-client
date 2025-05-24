@@ -1,7 +1,9 @@
-import { Button, InputGroup } from '@blueprintjs/core';
+import { Button, InputGroup, ProgressBar } from '@blueprintjs/core';
 import { useState } from 'react';
 import { z } from 'zod';
 import { useReader } from '../../contexts/readerContext/useReader';
+import { SubscriptionTag } from '../../contexts/readerContext/ReaderContext';
+import ConfirmSubscriptionsForm from './ConfirmSubscriptionForm';
 
 const useAddSubscription = () => {
   const [url, setUrl] = useState('');
@@ -23,32 +25,53 @@ const useAddSubscription = () => {
 };
 
 const AddSubscriptionForm = () => {
-  const { searchSubscription, searchSubscriptionLoading } = useReader();
+  const {
+    searchSubscription,
+    searchResults,
+    searchSubscriptionLoading,
+    addSubscriptions,
+    addSubscriptionsLoading,
+  } = useReader();
+
   const { url, valid, onChangeUrl } = useAddSubscription();
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     searchSubscription(url);
   };
 
+  const onSubmitAdd = (subscriptionTags: SubscriptionTag[]) =>
+    addSubscriptions(subscriptionTags);
+
+  if (searchSubscriptionLoading || addSubscriptionsLoading)
+    return <ProgressBar />;
+
   return (
-    <form
-      style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
-      onSubmit={onSubmit}
-    >
-      <InputGroup
-        placeholder="Subscribe"
-        value={url}
-        onValueChange={onChangeUrl}
-      />
-      <Button
-        type="submit"
-        title="Search"
-        text="Search"
-        loading={searchSubscriptionLoading}
-        disabled={!valid}
-      />
-    </form>
+    <>
+      <form
+        style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
+        onSubmit={onSubmitSearch}
+      >
+        <InputGroup
+          placeholder="Subscribe"
+          value={url}
+          onValueChange={onChangeUrl}
+        />
+        <Button
+          type="submit"
+          title="Search"
+          text="Search"
+          loading={searchSubscriptionLoading}
+          disabled={!valid}
+        />
+      </form>
+      {searchResults.length > 0 && (
+        <ConfirmSubscriptionsForm
+          subscriptionTags={searchResults}
+          onSubmitAdd={onSubmitAdd}
+        />
+      )}
+    </>
   );
 };
 

@@ -271,21 +271,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blueprintjs/colors@npm:^5.1.7":
-  version: 5.1.7
-  resolution: "@blueprintjs/colors@npm:5.1.7"
+"@blueprintjs/colors@npm:^5.1.8":
+  version: 5.1.8
+  resolution: "@blueprintjs/colors@npm:5.1.8"
   dependencies:
     tslib: "npm:~2.6.2"
-  checksum: 10c0/21f0ab259ac2c870cef5183a876557f6ee1c82d34ea688fe4162066b753a44713238bcd31d799118201ae9ba1e64ac430e2a347177ad6d3baa64b27e39fe111b
+  checksum: 10c0/d0a3d500628f60415f830df872244370efb0268f43b03a5c7c27d473ea1be5b8c9fb35fbc47330d7c022f3ddecd7afefb6ee4ef94789fe98feb2be95b15753ac
   languageName: node
   linkType: hard
 
-"@blueprintjs/core@npm:^5.16.6":
-  version: 5.16.6
-  resolution: "@blueprintjs/core@npm:5.16.6"
+"@blueprintjs/core@npm:^5.19.0":
+  version: 5.19.0
+  resolution: "@blueprintjs/core@npm:5.19.0"
   dependencies:
-    "@blueprintjs/colors": "npm:^5.1.7"
-    "@blueprintjs/icons": "npm:^5.18.1"
+    "@blueprintjs/colors": "npm:^5.1.8"
+    "@blueprintjs/icons": "npm:^5.22.0"
     "@popperjs/core": "npm:^2.11.8"
     classnames: "npm:^2.3.1"
     normalize.css: "npm:^8.0.1"
@@ -304,13 +304,13 @@ __metadata:
   bin:
     upgrade-blueprint-2.0.0-rename: scripts/upgrade-blueprint-2.0.0-rename.sh
     upgrade-blueprint-3.0.0-rename: scripts/upgrade-blueprint-3.0.0-rename.sh
-  checksum: 10c0/04bded5d03e260544641b29c92ed110f8d69c60fa2099041d94ab5a00024f732b07323d229ff877b007086d326fb455f08fcdabdd15d7bd534d1edce47401363
+  checksum: 10c0/62df77ca0295c6d09afd4f7cb045123ff69ec20b47419ffa78d262b96da910ea485bfee4cb487e6951cb1dff277000574b7406b2586fac509e864b4ced347d70
   languageName: node
   linkType: hard
 
-"@blueprintjs/icons@npm:^5.18.1":
-  version: 5.18.1
-  resolution: "@blueprintjs/icons@npm:5.18.1"
+"@blueprintjs/icons@npm:^5.22.0":
+  version: 5.22.0
+  resolution: "@blueprintjs/icons@npm:5.22.0"
   dependencies:
     change-case: "npm:^4.1.2"
     classnames: "npm:^2.3.1"
@@ -322,7 +322,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/react":
       optional: true
-  checksum: 10c0/ef262da45096d38c44585e8fe513b12751ea9b1ae672bd385a2f2871a73a09185031a28705541bda5a17d8e4fe87117b42a47b40b8dc799a462ee35369590c6c
+  checksum: 10c0/9424350db904fa79b1ec923d57488e9deea7746dd88542bea6bedca85df7818fd3c2418822cf512a7822fb307402e511815b10760b483667a470263ed01d4852
   languageName: node
   linkType: hard
 
@@ -3582,8 +3582,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "reader-client@workspace:."
   dependencies:
-    "@blueprintjs/core": "npm:^5.16.6"
-    "@blueprintjs/icons": "npm:^5.18.1"
+    "@blueprintjs/core": "npm:^5.19.0"
+    "@blueprintjs/icons": "npm:^5.22.0"
     "@eslint/js": "npm:^9.19.0"
     "@tanstack/react-query": "npm:^5.66.9"
     "@testing-library/dom": "npm:^10.4.0"

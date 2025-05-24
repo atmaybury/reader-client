@@ -7,9 +7,12 @@ import 'normalize.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
 // Import Blueprint Icons CSS
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
+import { OverlaysProvider } from '@blueprintjs/core';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <OverlaysProvider>
+      <App />
+    </OverlaysProvider>
   </StrictMode>,
 );

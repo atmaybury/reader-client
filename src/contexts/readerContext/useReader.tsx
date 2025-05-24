@@ -1,12 +1,16 @@
 import { useMutation } from '@tanstack/react-query';
 import {
+  SubscriptionTag,
+  subscriptionTagSchema,
   useReaderDispatchContext,
   useReaderStateContext,
 } from './ReaderContext';
 import {
-  addSubscriptionRequest,
+  addSubscriptionsRequest,
   searchSubscriptionRequest,
 } from '../../core/apiFunctions';
+import { z } from 'zod';
+import { useState } from 'react';
 
 export type UserInput = {
   username: string;
@@ -21,6 +25,8 @@ export const useReader = () => {
   const state = useReaderStateContext();
   const dispatch = useReaderDispatchContext();
 
+  const [searchResults, setSearchResults] = useState<SubscriptionTag[]>([]);
+
   const searchSubscriptionMutation = useMutation({
     mutationKey: ['searchSubscription'],
     mutationFn: searchSubscriptionRequest,
@@ -28,9 +34,9 @@ export const useReader = () => {
 
   const searchSubscription = async (url: string) => {
     try {
-      const addedSubscriptions =
-        await searchSubscriptionMutation.mutateAsync(url);
-      console.log(addedSubscriptions);
+      const res = await searchSubscriptionMutation.mutateAsync(url);
+      z.array(subscriptionTagSchema).parse(res);
+      setSearchResults(res);
     } catch (e) {
       console.error(
         'Error adding subscription: ',
@@ -39,19 +45,21 @@ export const useReader = () => {
     }
   };
 
-  const addSubscriptionMutation = useMutation({
-    mutationKey: ['addSubscription'],
-    mutationFn: addSubscriptionRequest,
+  const addSubscriptionsMutation = useMutation({
+    mutationKey: ['addSubscriptions'],
+    mutationFn: addSubscriptionsRequest,
   });
 
-  const addSubscription = async (url: string) => {
+  const addSubscriptions = async (subscriptionTags: SubscriptionTag[]) => {
     try {
-      const addedSubscriptions = await addSubscriptionMutation.mutateAsync(url);
+      const addedSubscriptions =
+        await addSubscriptionsMutation.mutateAsync(subscriptionTags);
       for (const subscription of addedSubscriptions) {
-        dispatch({
-          type: 'ADD_USER_SUBSCRIPTION',
-          payload: subscription,
-        });
+        console.log('NEW SUBSCRIPTION: ', subscription);
+        // dispatch({
+        //   type: 'ADD_USER_SUBSCRIPTION',
+        //   payload: subscription,
+        // });
       }
     } catch (e) {
       console.error(
@@ -71,8 +79,9 @@ export const useReader = () => {
     userSubscriptions: state.userSubscriptions,
     searchSubscription,
     searchSubscriptionLoading: searchSubscriptionMutation.isPending,
-    addSubscription,
-    addSubscriptionLoading: addSubscriptionMutation.isPending,
+    searchResults,
+    addSubscriptions,
+    addSubscriptionsLoading: addSubscriptionsMutation.isPending,
     selectedSubscriptionId: state.selectedSubscriptionId,
     setSelectedSubscriptionId,
   };

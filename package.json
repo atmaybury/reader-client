@@ -11,8 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@blueprintjs/core": "^5.16.6",
-    "@blueprintjs/icons": "^5.18.1",
+    "@blueprintjs/core": "^5.19.0",
+    "@blueprintjs/icons": "^5.22.0",
     "@tanstack/react-query": "^5.66.9",
     "prettier": "^3.5.2",
     "react": "^19.0.0",

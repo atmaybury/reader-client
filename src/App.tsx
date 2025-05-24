@@ -5,8 +5,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './components/Home';
 import { ReaderProvider } from './contexts/readerContext/ReaderContext';
 import LoggedOutView from './components/LoggedOutView';
+import { FocusStyleManager } from '@blueprintjs/core';
 
 const queryClient = new QueryClient();
+
+FocusStyleManager.onlyShowFocusOnTabs();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

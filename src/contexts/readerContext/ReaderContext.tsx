@@ -2,12 +2,20 @@ import { useQuery } from '@tanstack/react-query';
 import React, { createContext, useContext, useEffect, useReducer } from 'react';
 import { getUserSubscriptionsRequest } from '../../core/apiFunctions';
 import { useAuthorization } from '../authorizationContext/useAuthorization';
+import { z } from 'zod';
 
 export type Subscription = {
   id: string;
   title: string;
   url: string;
 };
+
+export const subscriptionTagSchema = z.object({
+  title: z.string(),
+  href: z.string(),
+});
+
+export type SubscriptionTag = z.infer<typeof subscriptionTagSchema>;
 
 type ReaderState = {
   userSubscriptions: Subscription[];
