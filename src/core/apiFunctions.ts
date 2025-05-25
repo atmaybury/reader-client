@@ -80,3 +80,21 @@ export const addSubscriptionsRequest = async (
     }),
   );
 };
+
+export const deleteSubscriptionsRequest = async (ids: number[]) => {
+  const token = window.localStorage.getItem('token');
+
+  return fetch(`${config.API_PATH}/delete-subscriptions`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(ids),
+  }).then(async (res) =>
+    res.text().then((body) => {
+      if (!res.ok) throw new Error(body || 'Unknown error');
+      return JSON.parse(body) as number[];
+    }),
+  );
+};

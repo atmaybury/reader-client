@@ -2346,6 +2346,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^12.12.2":
+  version: 12.12.2
+  resolution: "framer-motion@npm:12.12.2"
+  dependencies:
+    motion-dom: "npm:^12.12.1"
+    motion-utils: "npm:^12.12.1"
+    tslib: "npm:^2.4.0"
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/6bee365effe3b8242c020fbd95130943c45a6750525e49250fbc11af9571f7038f89729a62153cc8cb47059e4f44f90ab55299c7846a8fd2675cc1c954cd9df3
+  languageName: node
+  linkType: hard
+
 "fs-minipass@npm:^3.0.0":
   version: 3.0.3
   resolution: "fs-minipass@npm:3.0.3"
@@ -3114,6 +3136,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"motion-dom@npm:^12.12.1":
+  version: 12.12.1
+  resolution: "motion-dom@npm:12.12.1"
+  dependencies:
+    motion-utils: "npm:^12.12.1"
+  checksum: 10c0/d80cdde894d07042e792ae69f47d7b58aa20691d4e4da7ce803af246295855fd59fdbd7a9e0def8554e22fd105c407cc672bd85e0a79a660d523adee7989d61d
+  languageName: node
+  linkType: hard
+
+"motion-utils@npm:^12.12.1":
+  version: 12.12.1
+  resolution: "motion-utils@npm:12.12.1"
+  checksum: 10c0/880a174769d1be42b46cfb34af81b4a629c068d30d5cf7e07d249fbf2f5121d577482d3ea5bdc1db549c0288733e1e987efecb195fae350995270651559c6697
+  languageName: node
+  linkType: hard
+
+"motion@npm:^12.12.2":
+  version: 12.12.2
+  resolution: "motion@npm:12.12.2"
+  dependencies:
+    framer-motion: "npm:^12.12.2"
+    tslib: "npm:^2.4.0"
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/dd43a580635ef7ed255e289e61d988fa5b1534294a648e01c7e7429f332c8236926dbf5626b245bc27c451bc58367a1141887f9c6b1ae698feb701f9fcfa5dfc
+  languageName: node
+  linkType: hard
+
 "mrmime@npm:^2.0.0":
   version: 2.0.1
   resolution: "mrmime@npm:2.0.1"
@@ -3600,6 +3659,7 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.18"
     globals: "npm:^15.14.0"
     jsdom: "npm:^26.0.0"
+    motion: "npm:^12.12.2"
     prettier: "npm:^3.5.2"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
@@ -4149,7 +4209,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0":
+"tslib@npm:^2.0.0, tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.4.0":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62

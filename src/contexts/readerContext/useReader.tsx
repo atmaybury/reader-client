@@ -7,6 +7,7 @@ import {
 } from './ReaderContext';
 import {
   addSubscriptionsRequest,
+  deleteSubscriptionsRequest,
   searchSubscriptionRequest,
 } from '../../core/apiFunctions';
 import { z } from 'zod';
@@ -45,6 +46,8 @@ export const useReader = () => {
     }
   };
 
+  const clearSearch = () => setSearchResults([]);
+
   const addSubscriptionsMutation = useMutation({
     mutationKey: ['addSubscriptions'],
     mutationFn: addSubscriptionsRequest,
@@ -54,22 +57,40 @@ export const useReader = () => {
     try {
       const addedSubscriptions =
         await addSubscriptionsMutation.mutateAsync(subscriptionTags);
-      for (const subscription of addedSubscriptions) {
-        console.log('NEW SUBSCRIPTION: ', subscription);
-        // dispatch({
-        //   type: 'ADD_USER_SUBSCRIPTION',
-        //   payload: subscription,
-        // });
-      }
+      dispatch({
+        type: 'ADD_USER_SUBSCRIPTIONS',
+        payload: addedSubscriptions,
+      });
     } catch (e) {
       console.error(
-        'Error adding subscription: ',
+        'Error adding subscriptions: ',
         e instanceof Error ? e?.message : e,
       );
     }
   };
 
-  const setSelectedSubscriptionId = (id: string) =>
+  const deleteSubscriptionsMutation = useMutation({
+    mutationKey: ['deleteSubscriptions'],
+    mutationFn: deleteSubscriptionsRequest,
+  });
+
+  const deleteSubscriptions = async (ids: number[]) => {
+    try {
+      const deletedSubscriptionIds =
+        await deleteSubscriptionsMutation.mutateAsync(ids);
+      dispatch({
+        type: 'DELETE_USER_SUBSCRIPTIONS',
+        payload: deletedSubscriptionIds,
+      });
+    } catch (e) {
+      console.error(
+        'Error deleting subscription: ',
+        e instanceof Error ? e?.message : e,
+      );
+    }
+  };
+
+  const setSelectedSubscriptionId = (id: number) =>
     dispatch({
       type: 'SET_SELECTED_SUBSCRIPTION_ID',
       payload: id,
@@ -80,9 +101,15 @@ export const useReader = () => {
     searchSubscription,
     searchSubscriptionLoading: searchSubscriptionMutation.isPending,
     searchResults,
+    clearSearch,
     addSubscriptions,
     addSubscriptionsLoading: addSubscriptionsMutation.isPending,
+    deleteSubscriptions,
+    deleteSubscriptionsLoading: deleteSubscriptionsMutation.isPending,
     selectedSubscriptionId: state.selectedSubscriptionId,
     setSelectedSubscriptionId,
+    selectedSubscription: state.userSubscriptions.find(
+      (s) => s.id === state.selectedSubscriptionId,
+    ),
   };
 };

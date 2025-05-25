@@ -27,7 +27,7 @@ const Header = () => {
   const { logout } = useAuthorization();
 
   return (
-    <Navbar>
+    <Navbar style={{ boxShadow: 'none' }}>
       <Navbar.Group align={Alignment.LEFT}>
         <Navbar.Heading>Reader</Navbar.Heading>
         <Navbar.Divider />

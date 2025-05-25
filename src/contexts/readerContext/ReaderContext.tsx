@@ -5,7 +5,7 @@ import { useAuthorization } from '../authorizationContext/useAuthorization';
 import { z } from 'zod';
 
 export type Subscription = {
-  id: string;
+  id: number;
   title: string;
   url: string;
 };
@@ -19,7 +19,7 @@ export type SubscriptionTag = z.infer<typeof subscriptionTagSchema>;
 
 type ReaderState = {
   userSubscriptions: Subscription[];
-  selectedSubscriptionId?: string;
+  selectedSubscriptionId?: number;
 };
 
 const defaultReaderState: ReaderState = {
@@ -34,29 +34,42 @@ type SetUserSubscriptionsAction = {
   payload: Subscription[];
 };
 
-type AddUserSubscriptionAction = {
-  type: 'ADD_USER_SUBSCRIPTION';
-  payload: Subscription;
+type AddUserSubscriptionsAction = {
+  type: 'ADD_USER_SUBSCRIPTIONS';
+  payload: Subscription[];
+};
+
+type DeleteUserSubscriptionsAction = {
+  type: 'DELETE_USER_SUBSCRIPTIONS';
+  payload: number[];
 };
 
 type SetSelectedSubscriptionIdAction = {
   type: 'SET_SELECTED_SUBSCRIPTION_ID';
-  payload: string;
+  payload: number;
 };
 
 type ReaderReducerAction =
   | SetUserSubscriptionsAction
-  | AddUserSubscriptionAction
+  | AddUserSubscriptionsAction
+  | DeleteUserSubscriptionsAction
   | SetSelectedSubscriptionIdAction;
 
 const readerReducer = (state: ReaderState, action: ReaderReducerAction) => {
   switch (action.type) {
     case 'SET_USER_SUBSCRIPTIONS':
       return { ...state, userSubscriptions: action.payload };
-    case 'ADD_USER_SUBSCRIPTION':
+    case 'ADD_USER_SUBSCRIPTIONS':
       return {
         ...state,
-        userSubscriptions: [...state.userSubscriptions, action.payload],
+        userSubscriptions: [...state.userSubscriptions, ...action.payload],
+      };
+    case 'DELETE_USER_SUBSCRIPTIONS':
+      return {
+        ...state,
+        userSubscriptions: state.userSubscriptions.filter(
+          (s) => !action.payload.includes(s.id),
+        ),
       };
     case 'SET_SELECTED_SUBSCRIPTION_ID':
       return {
