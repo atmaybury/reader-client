@@ -1,8 +1,8 @@
-import { Button, Checkbox } from '@blueprintjs/core';
 import * as motion from 'motion/react-client';
 import { useEffect, useState } from 'react';
 import { SubscriptionTag } from '../../contexts/readerContext/ReaderContext';
 import { AnimatePresence } from 'motion/react';
+import { Button, Checkbox, Flex } from '@chakra-ui/react';
 
 const useConfirmSubscriptions = (subscriptionTags: SubscriptionTag[]) => {
   const [selectableSubscriptions, setSelectableSubscriptions] = useState<
@@ -16,14 +16,13 @@ const useConfirmSubscriptions = (subscriptionTags: SubscriptionTag[]) => {
     );
   }, [subscriptionTags]);
 
-  const onChange =
-    (href: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSelectableSubscriptions((prev) =>
-        prev.map((ss) =>
-          ss.href === href ? { ...ss, selected: e.target.checked } : ss,
-        ),
-      );
-    };
+  const onChange = (href: string) => (e: Checkbox.CheckedChangeDetails) => {
+    setSelectableSubscriptions((prev) =>
+      prev.map((ss) =>
+        ss.href === href ? { ...ss, selected: e.checked === true } : ss,
+      ),
+    );
+  };
 
   return {
     selectableSubscriptions,
@@ -62,10 +61,6 @@ const ConfirmSubscriptionsForm = ({
     <AnimatePresence>
       {visible && (
         <motion.div
-          // initial={{ opacity: 0, scale: 0 }}
-          // animate={{ opacity: 1, scale: 1 }}
-          // exit={{ opacity: 0, scale: 0 }}
-
           initial={{ opacity: 0, scaleY: 0, originY: 0 }}
           animate={{ opacity: 1, scaleY: 1 }}
           exit={{ opacity: 0, scaleY: 0 }}
@@ -88,18 +83,26 @@ const ConfirmSubscriptionsForm = ({
               }}
             >
               {selectableSubscriptions.map((ss) => (
-                <Checkbox
+                <Checkbox.Root
                   key={ss.href}
                   checked={ss.selected}
-                  onChange={onChange(ss.href)}
+                  onCheckedChange={onChange(ss.href)}
                   disabled={loading}
                 >
-                  {ss.title}
-                </Checkbox>
+                  <Checkbox.HiddenInput />
+                  <Checkbox.Control />
+                  <Checkbox.Label>{ss.title}</Checkbox.Label>
+                </Checkbox.Root>
               ))}
             </div>
-            <Button title="Cancel" text="Cancel" onClick={clearSearch} />
-            <Button title="Add" text="Add" type="submit" loading={loading} />
+            <Flex direction="row" justifyContent="flex-end" gap={2}>
+              <Button title="Cancel" onClick={clearSearch}>
+                Cancel
+              </Button>
+              <Button title="Add" type="submit" loading={loading}>
+                Add
+              </Button>
+            </Flex>
           </form>
         </motion.div>
       )}

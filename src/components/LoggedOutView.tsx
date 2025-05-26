@@ -1,7 +1,7 @@
-import { Button } from '@blueprintjs/core';
 import { useState } from 'react';
 import LoginForm from '../forms/loginForm/LoginForm';
 import RegisterForm from '../forms/registerForm/RegisterForm';
+import { Button } from '@chakra-ui/react';
 
 type FormType = 'login' | 'register';
 
@@ -25,18 +25,17 @@ const LoggedOutView = () => {
 
         <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
           <Button
-            minimal
             onClick={() => onChangeForm('login')}
             disabled={form === 'login'}
             style={{ flex: 1 }}
-            text="Login"
+            // text="Login"
           />
           <Button
-            minimal
+            // minimal
             onClick={() => onChangeForm('register')}
             disabled={form === 'register'}
             style={{ flex: 1 }}
-            text="Register"
+            // text="Register"
           />
         </div>
       </div>

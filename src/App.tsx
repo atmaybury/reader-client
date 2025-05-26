@@ -5,20 +5,20 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from './components/Home';
 import { ReaderProvider } from './contexts/readerContext/ReaderContext';
 import LoggedOutView from './components/LoggedOutView';
-import { FocusStyleManager } from '@blueprintjs/core';
+import { Provider } from './components/ui/provider';
 
 const queryClient = new QueryClient();
 
-FocusStyleManager.onlyShowFocusOnTabs();
-
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthorizationProvider>
-      <ReaderProvider>
-        <MainApp />
-      </ReaderProvider>
-    </AuthorizationProvider>
-  </QueryClientProvider>
+  <Provider>
+    <QueryClientProvider client={queryClient}>
+      <AuthorizationProvider>
+        <ReaderProvider>
+          <MainApp />
+        </ReaderProvider>
+      </AuthorizationProvider>
+    </QueryClientProvider>
+  </Provider>
 );
 
 const MainApp = () => {

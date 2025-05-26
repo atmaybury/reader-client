@@ -1,7 +1,9 @@
-import { Button, Card } from '@blueprintjs/core';
+import * as motion from 'motion/react-client';
 import { useReader } from '../contexts/readerContext/useReader';
 import { Subscription } from '../contexts/readerContext/ReaderContext';
 import { ReactNode } from 'react';
+import { Box, Button } from '@chakra-ui/react';
+import { AnimatePresence } from 'motion/react';
 
 type SubscriptionPanelProps = {
   selectedSubscription: Subscription;
@@ -12,7 +14,7 @@ const SubscriptionPanel = ({
   selectedSubscription,
   onDeleteSubscription,
 }: SubscriptionPanelProps) => (
-  <Card
+  <Box
     style={{
       display: 'flex',
       flexDirection: 'row',
@@ -21,24 +23,18 @@ const SubscriptionPanel = ({
   >
     <h1>{selectedSubscription.title}</h1>
     <Button onClick={onDeleteSubscription}>Delete</Button>
-  </Card>
+  </Box>
 );
 
 const HalftonePanel = ({ children }: { children: ReactNode }) => (
-  <div
-    style={{
-      height: '100%',
-      paddingRight: 10,
-      paddingBottom: 10,
-    }}
-  >
-    <div
+  <Box height="100%" paddingRight={2} paddingBottom={2}>
+    <Box
       style={{
         height: '100%',
         padding: 10,
         backgroundImage: `radial-gradient(
             circle at center,
-            black 0.05rem,
+            grey 0.05rem,
             transparent 0
           )`,
         backgroundSize: '0.3rem 0.3rem',
@@ -46,8 +42,8 @@ const HalftonePanel = ({ children }: { children: ReactNode }) => (
       }}
     >
       {children}
-    </div>
-  </div>
+    </Box>
+  </Box>
 );
 
 const MainPanel = () => {
@@ -60,14 +56,24 @@ const MainPanel = () => {
 
   return (
     <HalftonePanel>
-      {selectedSubscription && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <SubscriptionPanel
-            selectedSubscription={selectedSubscription}
-            onDeleteSubscription={onDeleteSubscription}
-          />
-        </div>
-      )}
+      <AnimatePresence>
+        {selectedSubscription && (
+          <motion.div
+            initial={{ opacity: 0, scaleY: 0, originY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            exit={{ opacity: 0, scaleY: 0 }}
+            transition={{
+              duration: 0.4,
+              scale: { type: 'spring', visualDuration: 0.4, bounce: 0.5 },
+            }}
+          >
+            <SubscriptionPanel
+              selectedSubscription={selectedSubscription}
+              onDeleteSubscription={onDeleteSubscription}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </HalftonePanel>
   );
 };

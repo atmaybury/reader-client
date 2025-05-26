@@ -1,4 +1,4 @@
-import { Button, InputGroup } from '@blueprintjs/core';
+import { Button, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 import { z } from 'zod';
 
@@ -9,9 +9,10 @@ const useSearchSubscription = () => {
   const validateUrl = (value: string) =>
     z.string().url().safeParse(value).success;
 
-  const onChangeUrl = (value: string) => {
-    setValid(validateUrl(value));
-    setUrl(value);
+  const onChangeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // const onChangeUrl = (value: string) => {
+    setValid(validateUrl(e.target.value));
+    setUrl(e.target.value);
   };
 
   return {
@@ -44,18 +45,10 @@ const SearchSubscriptionForm = ({ onSubmitSearch, loading }: Props) => {
       }}
       onSubmit={onSubmit}
     >
-      <InputGroup
-        placeholder="Subscribe"
-        value={url}
-        onValueChange={onChangeUrl}
-      />
-      <Button
-        type="submit"
-        title="Search"
-        text="Search"
-        loading={loading}
-        disabled={!valid}
-      />
+      <Input placeholder="Subscribe" value={url} onChange={onChangeUrl} />
+      <Button type="submit" title="Search" loading={loading} disabled={!valid}>
+        Search
+      </Button>
     </form>
   );
 };

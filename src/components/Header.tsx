@@ -1,25 +1,34 @@
-import { Alignment, Button, Card, Navbar, Popover } from '@blueprintjs/core';
-import { useAuthorization } from '../contexts/authorizationContext/useAuthorization';
+import { useAuthorization } from '@/contexts/authorizationContext/useAuthorization';
+import { Button, Flex, Popover, Portal, Text } from '@chakra-ui/react';
+import { useState } from 'react';
+import { RiLogoutCircleRLine, RiUser3Fill } from 'react-icons/ri';
 
 const UserButton = () => {
   const { user } = useAuthorization();
 
+  const [open, setOpen] = useState(false);
+
   return (
-    <Popover
-      usePortal={true}
-      content={
-        <Card>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h5>{user.username}</h5>
-            <h5>{user.email}</h5>
-          </div>
-        </Card>
-      }
-      interactionKind="click"
-      placement="bottom"
-    >
-      <Button className="bp5-minimal" icon="user" title="User" />
-    </Popover>
+    <Popover.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
+      <Popover.Trigger asChild>
+        <Button size="sm" variant="outline">
+          <RiUser3Fill />
+        </Button>
+      </Popover.Trigger>
+      <Portal>
+        <Popover.Positioner>
+          <Popover.Content>
+            <Popover.Arrow />
+            <Popover.Body>
+              <Flex direction="column">
+                <h5>{user.username}</h5>
+                <h5>{user.email}</h5>
+              </Flex>
+            </Popover.Body>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Portal>
+    </Popover.Root>
   );
 };
 
@@ -27,24 +36,23 @@ const Header = () => {
   const { logout } = useAuthorization();
 
   return (
-    <Navbar style={{ boxShadow: 'none' }}>
-      <Navbar.Group align={Alignment.LEFT}>
-        <Navbar.Heading>Reader</Navbar.Heading>
-        <Navbar.Divider />
-      </Navbar.Group>
-      <Navbar.Group align={Alignment.RIGHT}>
-        <Button className="bp5-minimal" icon="settings" title="Settings" />
+    <Flex
+      height={16}
+      padding={2}
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Text>Reader</Text>
+      <Flex style={{ flexDirection: 'row', gap: 2 }}>
         <UserButton />
-        <Navbar.Divider />
-        <Button
-          className="bp5-minimal"
-          icon="log-out"
-          onClick={logout}
-          title="Log out"
-          text="Log out"
-        />
-      </Navbar.Group>
-    </Navbar>
+        <Button size="sm" variant="outline" onClick={logout}>
+          <RiLogoutCircleRLine />
+        </Button>
+      </Flex>
+    </Flex>
   );
 };
 

@@ -6,6 +6,7 @@
 }
 
 body {
+  font-family: "Inconsolata", monospace;
   display: flex;
   place-items: center;
   width: 100vw;

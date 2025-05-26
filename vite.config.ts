@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import checker from 'vite-plugin-checker';
+import tsconfigpaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
   server: {
@@ -15,5 +16,6 @@ export default defineConfig({
         tsconfigPath: './tsconfig.app.json',
       },
     }),
+    tsconfigpaths(),
   ],
 });

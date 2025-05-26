@@ -1,7 +1,7 @@
-import { Button, FormGroup, InputGroup } from '@blueprintjs/core';
 import { useAuthorization } from '../../contexts/authorizationContext/useAuthorization';
 import PasswordField from '../../components/PasswordField';
 import useRegister, { RegisterFormKey } from './useRegister';
+import { Button, Input } from '@chakra-ui/react';
 
 const RegisterForm = () => {
   const { register, registerLoading } = useAuthorization();
@@ -22,6 +22,7 @@ const RegisterForm = () => {
       style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
       onSubmit={onRegister}
     >
+      {/*
       <FormGroup
         helperText=""
         label="Username"
@@ -33,7 +34,16 @@ const RegisterForm = () => {
           onValueChange={(val) => onChangeField(RegisterFormKey.USERNAME, val)}
         />
       </FormGroup>
+      */}
+      <Input
+        id={RegisterFormKey.USERNAME}
+        value={formState.values.username}
+        onChange={(e) =>
+          onChangeField(RegisterFormKey.USERNAME, e.target.value)
+        }
+      />
 
+      {/*
       <FormGroup helperText="" label="Email" labelFor={RegisterFormKey.EMAIL}>
         <InputGroup
           id={RegisterFormKey.EMAIL}
@@ -41,7 +51,14 @@ const RegisterForm = () => {
           onValueChange={(val) => onChangeField(RegisterFormKey.EMAIL, val)}
         />
       </FormGroup>
+      */}
+      <Input
+        id={RegisterFormKey.EMAIL}
+        value={formState.values.email}
+        onChange={(e) => onChangeField(RegisterFormKey.EMAIL, e.target.value)}
+      />
 
+      {/*
       <FormGroup
         helperText=""
         label="Password"
@@ -53,7 +70,23 @@ const RegisterForm = () => {
           onValueChange={(val) => onChangeField(RegisterFormKey.PASSWORD, val)}
         />
       </FormGroup>
+      <Input
+        id={RegisterFormKey.PASSWORD}
+        value={formState.values.password}
+        onChange={(e) =>
+          onChangeField(RegisterFormKey.PASSWORD, e.target.value)
+        }
+      />
+      */}
+      <PasswordField
+        id={RegisterFormKey.PASSWORD}
+        value={formState.values.password}
+        onChange={(e) =>
+          onChangeField(RegisterFormKey.PASSWORD, e.target.value)
+        }
+      />
 
+      {/*
       <FormGroup
         helperText=""
         label="Confirm password"
@@ -67,14 +100,31 @@ const RegisterForm = () => {
           }
         />
       </FormGroup>
+      <Input
+        id={RegisterFormKey.CONFIRM_PASSWORD}
+        value={formState.values.confirmPassword}
+        onChange={(e) =>
+          onChangeField(RegisterFormKey.CONFIRM_PASSWORD, e.target.value)
+        }
+      />
+      */}
+      <PasswordField
+        id={RegisterFormKey.CONFIRM_PASSWORD}
+        value={formState.values.confirmPassword}
+        onChange={(e) =>
+          onChangeField(RegisterFormKey.CONFIRM_PASSWORD, e.target.value)
+        }
+      />
 
       <Button
-        outlined
+        // outlined
         type="submit"
         loading={registerLoading}
         disabled={!valid}
-        text="Register"
-      />
+        // text="Register"
+      >
+        Register
+      </Button>
     </form>
   );
 };
