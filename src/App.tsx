@@ -29,17 +29,7 @@ const MainApp = () => {
     console.log('User: ', user);
   }, [user]);
 
-  return (
-    <div
-      style={{
-        width: '100vw',
-        height: '100vh',
-        display: 'flex',
-      }}
-    >
-      {loggedIn ? <Home /> : <LoggedOutView />}
-    </div>
-  );
+  return <>{loggedIn ? <Home /> : <LoggedOutView />}</>;
 };
 
 export default App;

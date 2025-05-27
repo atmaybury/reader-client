@@ -98,3 +98,20 @@ export const deleteSubscriptionsRequest = async (ids: number[]) => {
     }),
   );
 };
+
+export const fetchFeedRequest = async (url: string) => {
+  const token = window.localStorage.getItem('token');
+
+  return fetch(`${config.API_PATH}/fetch-feed?href=${url}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  }).then(async (res) =>
+    res.text().then((body) => {
+      if (!res.ok) throw new Error(body || 'Unknown error');
+      return JSON.parse(body);
+    }),
+  );
+};

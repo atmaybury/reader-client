@@ -1,34 +1,22 @@
-import Header from './Header';
+import { Flex } from '@chakra-ui/react';
+// import Header from './Header';
 import MainPanel from './MainPanel';
 import Sidebar from './Sidebar';
 
 const Home = () => (
-  <div
-    style={{
-      width: '100vw',
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-    }}
-  >
+  <Flex direction="column" width="100vw" height="100vh">
+    {/*
     <Header />
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flex: 1,
-        flexDirection: 'row',
-      }}
-    >
+    */}
+    <Flex direction="row" flex={1} width="100%" height="100%" overflow="hidden">
       <div style={{ flex: 1 }}>
         <Sidebar />
       </div>
-      <div style={{ flex: 3 }}>
+      <div style={{ flex: 4 }}>
         <MainPanel />
       </div>
-    </div>
-  </div>
+    </Flex>
+  </Flex>
 );
 
 export default Home;

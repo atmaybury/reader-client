@@ -10,7 +10,6 @@ const useSearchSubscription = () => {
     z.string().url().safeParse(value).success;
 
   const onChangeUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const onChangeUrl = (value: string) => {
     setValid(validateUrl(e.target.value));
     setUrl(e.target.value);
   };
