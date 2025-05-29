@@ -8,7 +8,7 @@ type FormType = 'login' | 'register';
 const LoggedOutView = () => {
   const [form, setForm] = useState<FormType>('login');
 
-  const onChangeForm = (form: FormType) => setForm(form);
+  const onChangeForm = (form: FormType) => () => setForm(form);
 
   return (
     <div
@@ -25,18 +25,19 @@ const LoggedOutView = () => {
 
         <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
           <Button
-            onClick={() => onChangeForm('login')}
+            onClick={onChangeForm('login')}
             disabled={form === 'login'}
             style={{ flex: 1 }}
-            // text="Login"
-          />
+          >
+            Login
+          </Button>
           <Button
-            // minimal
-            onClick={() => onChangeForm('register')}
+            onClick={onChangeForm('register')}
             disabled={form === 'register'}
             style={{ flex: 1 }}
-            // text="Register"
-          />
+          >
+            Register
+          </Button>
         </div>
       </div>
     </div>

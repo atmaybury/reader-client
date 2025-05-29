@@ -28,10 +28,11 @@ export const useAuthorization = () => {
 
   const register = async (user: UserInput) => {
     try {
-      const res = await registerUserMutation.mutateAsync(user);
-      window.localStorage.setItem('token', res);
-      const userToken = decodeToken(res);
-      if (userToken) dispatch({ type: 'LOGIN', payload: userToken });
+      const token = await registerUserMutation.mutateAsync(user);
+      window.localStorage.setItem('token', token);
+      const userToken = decodeToken(token);
+      if (userToken)
+        dispatch({ type: 'LOGIN', payload: { token, user: userToken } });
     } catch (e) {
       console.error(
         'Error registering user: ',
