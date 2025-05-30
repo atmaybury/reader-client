@@ -53,7 +53,6 @@ const UserSubscriptionsList = () => {
             onClick={handleClick(s.id)}
             variant={s.id === selectedSubscriptionId ? 'outline' : 'ghost'}
             justifyContent="flex-start"
-            // width="100px"
           >
             <Text truncate>{s.title}</Text>
           </Button>
@@ -76,17 +75,16 @@ const SideBarFooter = () => {
   );
 };
 
-const Sidebar = () => {
-  return (
-    <Flex direction="column" height="100%" p={2} gap={2}>
-      <Text>Reader</Text>
+const Sidebar = () => (
+  <Flex direction="column" height="100%" p={2} gap={2} overflow="hidden">
+    <Text>Reader</Text>
 
-      <AddSubscriptionForm />
-      <UserSubscriptionsList />
+    <AddSubscriptionForm />
+    <UserSubscriptionsList />
 
-      <Flex flex={1} />
-      <SideBarFooter />
-    </Flex>
-  );
-};
+    <Flex flex={1} />
+    <SideBarFooter />
+  </Flex>
+);
+
 export default Sidebar;

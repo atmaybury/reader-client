@@ -1,5 +1,8 @@
 import config from '../config';
-import { UserInput } from '../contexts/authorizationContext/useAuthorization';
+import {
+  UserInput,
+  UserLoginInput,
+} from '../contexts/authorizationContext/useAuthorization';
 import {
   Subscription,
   SubscriptionTag,
@@ -16,7 +19,7 @@ export const registerUserRequest = (user: UserInput) =>
     }),
   );
 
-export const loginUserRequest = (user: UserInput) =>
+export const loginUserRequest = (user: UserLoginInput) =>
   fetch(`${config.API_PATH}/login`, {
     method: 'POST',
     body: JSON.stringify(user),

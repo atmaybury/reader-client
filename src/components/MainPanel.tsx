@@ -2,7 +2,7 @@ import * as motion from 'motion/react-client';
 import { useReader } from '../contexts/readerContext/useReader';
 import { Subscription } from '../contexts/readerContext/ReaderContext';
 import { ReactNode, useEffect } from 'react';
-import { Box, Button, Collapsible, Flex, Spinner } from '@chakra-ui/react';
+import { Button, Collapsible, Flex, Spinner } from '@chakra-ui/react';
 import { AnimatePresence } from 'motion/react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchFeedRequest } from '@/core/apiFunctions';
@@ -109,22 +109,23 @@ const SubscriptionPanel = ({
 };
 
 const HalftonePanel = ({ children }: { children: ReactNode }) => (
-  <Box
+  <Flex
     height="100%"
+    width="100%"
     overflowY="auto"
+    padding={2}
     style={{
-      padding: 10,
       backgroundImage: `radial-gradient(
-            circle at center,
-            grey 0.05rem,
-            transparent 0
-          )`,
+        circle at center,
+        grey 0.05rem,
+        transparent 0
+      )`,
       backgroundSize: '0.3rem 0.3rem',
       backgroundRepeat: 'round',
     }}
   >
     {children}
-  </Box>
+  </Flex>
 );
 
 const MainPanel = () => {
@@ -147,7 +148,7 @@ const MainPanel = () => {
               duration: 0.4,
               scale: { type: 'spring', visualDuration: 0.4, bounce: 0.5 },
             }}
-            style={{ height: '100%' }}
+            style={{ height: '100%', width: '100%' }}
           >
             <SubscriptionPanel
               selectedSubscription={selectedSubscription}

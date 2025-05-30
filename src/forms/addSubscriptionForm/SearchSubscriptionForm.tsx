@@ -1,4 +1,4 @@
-import { Button, Input } from '@chakra-ui/react';
+import { Button, Flex, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 import { z } from 'zod';
 
@@ -14,10 +14,13 @@ const useSearchSubscription = () => {
     setUrl(e.target.value);
   };
 
+  const clearUrl = () => setUrl('');
+
   return {
     url,
     valid,
     onChangeUrl,
+    clearUrl,
   };
 };
 
@@ -27,10 +30,11 @@ type Props = {
 };
 
 const SearchSubscriptionForm = ({ onSubmitSearch, loading }: Props) => {
-  const { url, valid, onChangeUrl } = useSearchSubscription();
+  const { url, valid, onChangeUrl, clearUrl } = useSearchSubscription();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    clearUrl();
     onSubmitSearch(url);
   };
 
@@ -45,9 +49,17 @@ const SearchSubscriptionForm = ({ onSubmitSearch, loading }: Props) => {
       onSubmit={onSubmit}
     >
       <Input placeholder="Subscribe" value={url} onChange={onChangeUrl} />
-      <Button type="submit" title="Search" loading={loading} disabled={!valid}>
-        Search
-      </Button>
+      <Flex direction="row">
+        <Flex flex={1} />
+        <Button
+          type="submit"
+          title="Search"
+          loading={loading}
+          disabled={!valid}
+        >
+          Search
+        </Button>
+      </Flex>
     </form>
   );
 };

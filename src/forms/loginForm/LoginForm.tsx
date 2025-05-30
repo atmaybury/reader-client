@@ -10,7 +10,6 @@ const LoginForm = () => {
   const onLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login({
-      username: formState.values.username,
       email: formState.values.email,
       password: formState.values.password,
     });
@@ -21,53 +20,11 @@ const LoginForm = () => {
       style={{ display: 'flex', flexDirection: 'column', gap: 10 }}
       onSubmit={onLogin}
     >
-      {/*
-      <FormGroup
-        helperText=""
-        label="Username"
-        labelFor={LoginFormKey.USERNAME}
-      >
-        <InputGroup
-          id={LoginFormKey.USERNAME}
-          value={formState.values.username}
-          onValueChange={(val) => onChangeField(LoginFormKey.USERNAME, val)}
-        />
-      </FormGroup>
-      */}
-      <Input
-        id={LoginFormKey.USERNAME}
-        value={formState.values.username}
-        onChange={(e) => onChangeField(LoginFormKey.USERNAME, e.target.value)}
-      />
-
-      {/*
-      <FormGroup helperText="" label="Email" labelFor={LoginFormKey.EMAIL}>
-        <InputGroup
-          id={LoginFormKey.EMAIL}
-          value={formState.values.email}
-          onValueChange={(val) => onChangeField(LoginFormKey.EMAIL, val)}
-        />
-      </FormGroup>
-      */}
       <Input
         id={LoginFormKey.EMAIL}
         value={formState.values.email}
         onChange={(e) => onChangeField(LoginFormKey.EMAIL, e.target.value)}
       />
-
-      {/*
-      <FormGroup
-        helperText=""
-        label="Password"
-        labelFor={LoginFormKey.PASSWORD}
-      >
-        <PasswordField
-          id={LoginFormKey.PASSWORD}
-          value={formState.values.password}
-          onValueChange={(val) => onChangeField(LoginFormKey.PASSWORD, val)}
-        />
-      </FormGroup>
-      */}
       <PasswordField
         id={LoginFormKey.PASSWORD}
         value={formState.values.password}

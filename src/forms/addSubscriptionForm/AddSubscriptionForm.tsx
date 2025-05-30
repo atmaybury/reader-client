@@ -14,8 +14,10 @@ const AddSubscriptionForm = () => {
   } = useReader();
   const onSubmitSearch = async (url: string) => searchSubscription(url);
 
-  const onSubmitAdd = (subscriptionTags: SubscriptionTag[]) =>
+  const onSubmitAdd = (subscriptionTags: SubscriptionTag[]) => {
+    clearSearch();
     addSubscriptions(subscriptionTags);
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

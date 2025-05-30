@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import { decodeToken } from '../../core/helpers';
 import { z } from 'zod';
 
@@ -52,7 +52,6 @@ const authorizationReducer = (
 ) => {
   switch (action.type) {
     case 'LOGIN':
-      console.log('LOGIN: ', action.payload);
       return {
         ...state,
         token: action.payload.token,
@@ -80,10 +79,6 @@ export const AuthorizationProvider = ({ children }: Props) => {
     authorizationReducer,
     defaultAuthorizationState,
   );
-
-  useEffect(() => {
-    console.log('STATE USER: ', state.user);
-  }, [state]);
 
   if (!state.loggedIn) {
     const token = window.localStorage.getItem('token');

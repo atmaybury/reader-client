@@ -6,6 +6,11 @@ import {
 import { decodeToken } from '../../core/helpers';
 import { loginUserRequest, registerUserRequest } from '../../core/apiFunctions';
 
+export type UserLoginInput = {
+  email: string;
+  password: string;
+};
+
 export type UserInput = {
   username: string;
   email: string;
@@ -46,7 +51,7 @@ export const useAuthorization = () => {
     mutationFn: loginUserRequest,
   });
 
-  const login = async (user: UserInput) => {
+  const login = async (user: UserLoginInput) => {
     try {
       const token = await loginUserMutation.mutateAsync(user);
       window.localStorage.setItem('token', token);

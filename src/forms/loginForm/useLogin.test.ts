@@ -21,19 +21,6 @@ describe('useLogin hook', () => {
     });
   });
 
-  describe('username field', () => {
-    it('updates the username value on input', () => {
-      const { result } = renderHook(() => useLogin());
-
-      const usernameInput = 'username';
-
-      act(() => {
-        result.current.onChangeField(LoginFormKey.USERNAME, usernameInput);
-      });
-      expect(result.current.formState.values.username).toBe(usernameInput);
-    });
-  });
-
   describe('email field', () => {
     it('updates the email value on input', () => {
       const { result } = renderHook(() => useLogin());
@@ -66,13 +53,11 @@ describe('useLogin hook', () => {
     it('valid returns false when error present, true when none present', () => {
       const { result } = renderHook(() => useLogin());
 
-      const usernameInput = 'username';
       const badEmailInput = 'test@test';
       const goodEmailInput = 'test@test.com';
       const passwordInput = 'password';
 
       act(() => {
-        result.current.onChangeField(LoginFormKey.USERNAME, usernameInput);
         result.current.onChangeField(LoginFormKey.EMAIL, badEmailInput);
         result.current.onChangeField(LoginFormKey.PASSWORD, passwordInput);
       });
