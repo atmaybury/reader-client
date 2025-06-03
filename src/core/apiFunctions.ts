@@ -4,6 +4,7 @@ import {
   UserLoginInput,
 } from '../contexts/authorizationContext/useAuthorization';
 import {
+  Folder,
   Subscription,
   SubscriptionTag,
 } from '../contexts/readerContext/ReaderContext';
@@ -29,6 +30,23 @@ export const loginUserRequest = (user: UserLoginInput) =>
       return body;
     }),
   );
+
+export const getUserFoldersRequest = async () => {
+  const token = window.localStorage.getItem('token');
+
+  return fetch(`${config.API_PATH}/user-folders`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  }).then(async (res) =>
+    res.text().then((body) => {
+      if (!res.ok) throw new Error(body || 'Unknown error');
+      return JSON.parse(body) as Folder[];
+    }),
+  );
+};
 
 export const getUserSubscriptionsRequest = async () => {
   const token = window.localStorage.getItem('token');

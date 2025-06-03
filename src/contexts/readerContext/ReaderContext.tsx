@@ -4,6 +4,11 @@ import { getUserSubscriptionsRequest } from '../../core/apiFunctions';
 import { useAuthorization } from '../authorizationContext/useAuthorization';
 import { z } from 'zod';
 
+export type Folder = {
+  id: number;
+  name: string
+}
+
 export type Subscription = {
   id: number;
   title: string;

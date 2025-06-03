@@ -76,7 +76,14 @@ const SideBarFooter = () => {
 };
 
 const Sidebar = () => (
-  <Flex direction="column" height="100%" p={2} gap={2} overflow="hidden">
+  <Flex
+    direction="column"
+    height="100%"
+    width="100%"
+    p={2}
+    gap={2}
+    overflow="hidden"
+  >
     <Text>Reader</Text>
 
     <AddSubscriptionForm />
